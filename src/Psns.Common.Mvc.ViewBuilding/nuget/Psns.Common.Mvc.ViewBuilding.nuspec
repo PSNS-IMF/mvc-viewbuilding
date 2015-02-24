@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 1.0.0.2
+      ### Fixes
+      * Incrementing version to propagate nuspec corrections.
+
       ## 1.0.0.1
       ### Features
       * Adding view models for context menu
