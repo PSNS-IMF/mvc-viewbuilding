@@ -17,7 +17,7 @@
       * Initial Release
     </releaseNotes>
     <projectUrl>https://github.com/PSNS-IMF/mvc-viewbuilding</projectUrl>
-    <licenseUrl>https://github.com/PSNS-IMF/mvc-viewbuilding/blob/master/License</licenseUrl>
+    <licenseUrl>https://github.com/PSNS-IMF/mvc-viewbuilding/blob/master/LICENSE.md</licenseUrl>
     <copyright>Copyright 2015</copyright>
     <version>$version$</version>
     <dependencies>
