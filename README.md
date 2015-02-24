@@ -1,4 +1,4 @@
-# PSNS Persistence Definitions [![NuGet Version](http://img.shields.io/nuget/v/Psns.Common.Mvc.ViewBuilding.svg?style=flat)](https://www.nuget.org/packages/Psns.Common.Mvc.ViewBuilding/) [![NuGet Downloads](http://img.shields.io/nuget/dt/Psns.Common.Mvc.ViewBuilding.svg?style=flat)](https://www.nuget.org/packages/Psns.Common.Mvc.ViewBuilding/)
+# PSNS View Building [![NuGet Version](http://img.shields.io/nuget/v/Psns.Common.Mvc.ViewBuilding.svg?style=flat)](https://www.nuget.org/packages/Psns.Common.Mvc.ViewBuilding/) [![NuGet Downloads](http://img.shields.io/nuget/dt/Psns.Common.Mvc.ViewBuilding.svg?style=flat)](https://www.nuget.org/packages/Psns.Common.Mvc.ViewBuilding/)
 
 The CrudViewBuilder is able to generate view models based on decorated class definitions 
 using the various view attributes defined in the Attributes folder. See unit tests for example usage.
