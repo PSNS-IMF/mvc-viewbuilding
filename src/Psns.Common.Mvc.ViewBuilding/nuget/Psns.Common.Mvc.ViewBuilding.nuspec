@@ -37,7 +37,7 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="nuget\readme.txt" target="" />
-    <file src="nuget\lib\**\*.*" target="lib" />
+    <file src="..\bin\$configuration$\*.Mvc.ViewBuilding.*" target="lib\net40\" />
+    <file src="..\bin\$configuration$\net45\*.Mvc.ViewBuilding.*" target="lib\net45\" />
   </files>
 </package>
