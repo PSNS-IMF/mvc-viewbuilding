@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 314f7bcbac004ba7b62e736845f6a3e9c3f5d7e5 Jeff Purcell <jeffrey.a.purcell@navy.mil> 1424293261 -0800	commit (initial): Initial commit to add default .gitIgnore and .gitAttribute files.
+314f7bcbac004ba7b62e736845f6a3e9c3f5d7e5 271d3bead8bad3515a2cd3f4e6c4c31d5f7ec547 Jeff Purcell <jeffrey.a.purcell@navy.mil> 1424295948 -0800	commit: Initial commit.
+271d3bead8bad3515a2cd3f4e6c4c31d5f7ec547 db328b1e798ce065bec6c125797c8b4785e123d3 Jeff Purcell <jeffrey.a.purcell@navy.mil> 1424296128 -0800	commit: Initial commit.
+db328b1e798ce065bec6c125797c8b4785e123d3 57c829e3ac3c7bb65ccce5d774242ff8116fafdb Jeff Purcell <jeffrey.a.purcell@navy.mil> 1424299531 -0800	commit: Adding .NET 4.5 support.

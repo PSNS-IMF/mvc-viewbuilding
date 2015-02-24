@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Psns.Common.Persistence.Definitions</name>
+    </assembly>
+    <members>
+        <member name="T:Psns.Common.Persistence.Definitions.DefinitionsNinjectModule">
+            <summary>
+            Contains Ninject bindings for module
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.DefinitionsNinjectModule.Load">
+            <summary>
+            Binds IRepositoryFactory to RepositoryFactory
+            </summary>
+        </member>
+        <member name="T:Psns.Common.Persistence.Definitions.IIdentifiable">
+            <summary>
+            Defines an object that can be identified
+            </summary>
+        </member>
+        <member name="P:Psns.Common.Persistence.Definitions.IIdentifiable.Id">
+            <summary>
+            An integer Property
+            </summary>
+        </member>
+        <member name="T:Psns.Common.Persistence.Definitions.IdentifiableComparer">
+            <summary>
+            Used to compare to IIdentifiables
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IdentifiableComparer.Equals(Psns.Common.Persistence.Definitions.IIdentifiable,Psns.Common.Persistence.Definitions.IIdentifiable)">
+            <summary>
+            Determines if two IIdentifiables are Equal
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns>If x.Id == y.Id</returns>
+        </member>
+        <member name="T:Psns.Common.Persistence.Definitions.IRepository`1">
+            <summary>
+            Defines a repository that provides access to a collection of type T
+            </summary>
+            <typeparam name="T">IIdentifiable class</typeparam>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepository`1.All(System.String[])">
+            <summary>
+            Get all entities
+            </summary>
+            <returns>IEnumerable of T</returns>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepository`1.Create(`0)">
+            <summary>
+            Create a given T
+            </summary>
+            <param name="entity">The T to create</param>
+            <returns>The created T</returns>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepository`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.String[])">
+            <summary>
+            Search for a particular T
+            </summary>
+            <param name="predicate">A Linq Expression</param>
+            <returns>IEnumerble<typeparamref name="T"/></returns>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepository`1.Find(System.Object[])">
+            <summary>
+            Search for a T with given primary key values
+            </summary>
+            <param name="keyValues">Primary key values</param>
+            <returns>A T or null if not found</returns>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepository`1.Update(`0,System.String[])">
+            <summary>
+            Update a given T
+            </summary>
+            <param name="entity">The T to update</param>
+            <returns>The updated T</returns>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepository`1.Delete(`0)">
+            <summary>
+            Remove a T from the repository
+            </summary>
+            <param name="entity">The T to delete</param>
+            /// <returns>The deleted T</returns>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepository`1.SaveChanges">
+            <summary>
+            Save all changes made
+            </summary>
+            <returns>The number of changes committed</returns>
+        </member>
+        <member name="T:Psns.Common.Persistence.Definitions.IRepositoryFactory">
+            <summary>
+            Defines a factory object that creates IRepositories
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.IRepositoryFactory.Get``1">
+            <summary>
+            Get an IRepository of type T
+            </summary>
+            <typeparam name="T">T</typeparam>
+            <returns>IRepository of type T</returns>
+        </member>
+        <member name="T:Psns.Common.Persistence.Definitions.RepositoryFactory">
+            <summary>
+            An implementation of IRepositoryFactory that uses Ninject as the locator
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.RepositoryFactory.#ctor(Ninject.IKernel)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="kernel">The Ninject IKernel</param>
+        </member>
+        <member name="M:Psns.Common.Persistence.Definitions.RepositoryFactory.Get``1">
+            <summary>
+            Call the Ninject Kernel to get an IRepository of type T
+            </summary>
+            <typeparam name="T">The type of IRepository to get</typeparam>
+            <returns>IRepository of type T</returns>
+        </member>
+    </members>
+</doc>

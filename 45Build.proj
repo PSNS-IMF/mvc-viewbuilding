@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="Build.proj" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Any CPU</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace Condition=" '$(RootNamespace)' == '' ">Psns.Common.Mvc.ViewBuilding</RootNamespace>
+    <AssemblyName>$(RootNamespace)</AssemblyName>
+    <OutDir>$(OutDir)net45\</OutDir>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>$(OutDir)</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>$(OutDir)$(RootNamespace).xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Psns.Common.Persistence.Definitions">
+      <HintPath>packages\Psns.Common.Persistence.Definitions.1.0.3.0\lib\net45\Psns.Common.Persistence.Definitions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\$(RootNamespace)\Adapters\RequestContextAdapter.cs" />
+    <Compile Include="src\$(RootNamespace)\Attributes\InputPropertyType.cs" />
+    <Compile Include="src\$(RootNamespace)\Attributes\ViewComplexPropertyAttribute.cs" />
+    <Compile Include="src\$(RootNamespace)\Attributes\ViewComplexPropertyForeignKeyAttribute.cs" />
+    <Compile Include="src\$(RootNamespace)\Attributes\ViewDisplayablePropertyAttribute.cs" />
+    <Compile Include="src\$(RootNamespace)\Attributes\ViewUpdatablePropertyAttribute.cs" />
+    <Compile Include="src\$(RootNamespace)\CrudViewBuilder.cs" />
+    <Compile Include="src\$(RootNamespace)\Entities\CrudEntityExtensions.cs" />
+    <Compile Include="src\$(RootNamespace)\Entities\INameable.cs" />
+    <Compile Include="src\$(RootNamespace)\Properties\AssemblyInfo.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\ActionModel.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\AttributeDictionary.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\DetailsView.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\FilterOption.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\Form.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\IndexView.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\InputProperty.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\Pager.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\Routable.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\SearchForm.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\TableModel\Column.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\TableModel\ITableElement.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\TableModel\ITableVisitor.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\TableModel\Row.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\TableModel\Table.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\UpdateView.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\View.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\Menu\GlobalMenu.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\Menu\IContextMenu.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\Menu\IMenuItem.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\Menu\MenuNode.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

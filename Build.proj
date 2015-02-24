@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
+
+  <PropertyGroup>
+    <SolutionName>ViewBuilding</SolutionName>
+    <ProjectName>Psns.Common.Mvc.$(SolutionName)</ProjectName>
+    <OutDir>src\$(ProjectName)\bin\$(Configuration)\</OutDir>
+    <AssemblyPath>$(OutDir)$(ProjectName).dll</AssemblyPath>
+    <XmlDocPath>$(OutDir)$(ProjectName).xml</XmlDocPath>
+    <AssemblyPath45>$(OutDir)net45\$(ProjectName).dll</AssemblyPath45>
+    <XmlDocPath45>$(OutDir)net45\$(ProjectName).xml</XmlDocPath45>
+  </PropertyGroup>
+
+  <Target Name="Build" DependsOnTargets="Compile;Test;Deploy" />
+
+  <Target Name="Compile">
+    <MSBuild Projects="$(SolutionName).sln" />
+    <MSBuild Projects="45Build.proj" />
+  </Target>
+
+  <Target Name="Test">
+    <Exec Command="&quot;$(VsTestConsole)&quot; test\$(SolutionName).UnitTests\bin\$(Configuration)\$(SolutionName).UnitTests.dll" />
+  </Target>
+
+  <Target Name="Deploy">
+    <GetAssemblyIdentity AssemblyFiles="$(AssemblyPath)">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
+    </GetAssemblyIdentity>
+    <Copy DestinationFolder="Build\lib\net40" SourceFiles="$(AssemblyPath);$(XmlDocPath)" />
+    <Copy DestinationFolder="Build\lib\net45" SourceFiles="$(AssemblyPath45);$(XmlDocPath45)" />
+    <Exec Command="$(Nuget) pack src\$(ProjectName)\nuget\$(ProjectName).nuspec -NoPackageAnalysis -verbosity detailed -p Configuration=$(Configuration) -Version %(AssemblyInfo.Version) -o Build" />
+  </Target>
+</Project>

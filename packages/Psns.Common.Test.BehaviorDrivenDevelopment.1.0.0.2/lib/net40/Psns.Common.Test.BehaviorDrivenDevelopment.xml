@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Psns.Common.Test.BehaviorDrivenDevelopment</name>
+    </assembly>
+    <members>
+        <member name="T:Psns.Common.Test.BehaviorDrivenDevelopment.BehaviorDrivenDevelopmentCaseTemplate">
+            <summary>
+            Base class to enable Arrange-Act-Assert pattern
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Test.BehaviorDrivenDevelopment.BehaviorDrivenDevelopmentCaseTemplate.#ctor">
+            <summary>
+            Constructor will call Arrange and Act in order
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Test.BehaviorDrivenDevelopment.BehaviorDrivenDevelopmentCaseTemplate.Arrange">
+            <summary>
+            Arrange all necessary pre-conditions and inputs
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Test.BehaviorDrivenDevelopment.BehaviorDrivenDevelopmentCaseTemplate.Act">
+            <summary>
+            Act on the object or method under test
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Test.BehaviorDrivenDevelopment.BehaviorDrivenDevelopmentCaseTemplate.CleanUp">
+            <summary>
+            Free/Reset any Disposable resources
+            </summary>
+        </member>
+    </members>
+</doc>
