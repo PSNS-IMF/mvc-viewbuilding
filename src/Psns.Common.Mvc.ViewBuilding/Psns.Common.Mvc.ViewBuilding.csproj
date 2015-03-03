@@ -101,6 +101,7 @@
     <Compile Include="ViewModels\DetailsView.cs" />
     <Compile Include="ViewModels\FilterOption.cs" />
     <Compile Include="ViewModels\Form.cs" />
+    <Compile Include="ViewModels\IIndexViewVisitor.cs" />
     <Compile Include="ViewModels\IndexView.cs" />
     <Compile Include="ViewModels\InputProperty.cs" />
     <Compile Include="ViewModels\Menu\GlobalMenu.cs" />

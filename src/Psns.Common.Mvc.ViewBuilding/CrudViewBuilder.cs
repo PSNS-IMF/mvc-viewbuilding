@@ -31,7 +31,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             IEnumerable<string> filterKeys = null,
             IEnumerable<string> filterValues = null,
             string searchQuery = null,
-            params ITableVisitor[] tableVisitors) where T : class, IIdentifiable;
+            params IIndexViewVisitor[] viewVisitors) where T : class, IIdentifiable;
 
         DetailsView BuildDetailsView<T>(int id) where T : class, IIdentifiable, INameable;
         UpdateView BuildUpdateView<T>(int? id) where T : class, IIdentifiable, INameable;
@@ -60,9 +60,9 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             IEnumerable<string> filterKeys = null,
             IEnumerable<string> filterValues = null,
             string searchQuery = null,
-            params ITableVisitor[] tableVisitors) where T : class, IIdentifiable
+            params IIndexViewVisitor[] viewVisitors) where T : class, IIdentifiable
         {
-            tableVisitors = tableVisitors ?? new ITableVisitor[0];
+            viewVisitors = viewVisitors ?? new IIndexViewVisitor[0];
             page = page ?? 1;
             pageSize = pageSize ?? 25;
 
@@ -118,7 +118,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
 
                     var column = new Column { Value = value };
 
-                    foreach(var visitor in tableVisitors)
+                    foreach(var visitor in viewVisitors)
                         column.Accept(visitor);
 
                     row.Columns.Add(column);
@@ -126,14 +126,14 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
 
                 if(row.Columns.Count > 0)
                 {
-                    foreach(var visitor in tableVisitors)
+                    foreach(var visitor in viewVisitors)
                         row.Accept(visitor);
 
                     view.Table.Rows.Add(row);
                 }
             }
 
-            foreach(var visitor in tableVisitors)
+            foreach(var visitor in viewVisitors)
                 view.Table.Accept(visitor);
 
             var create = new ActionModel
@@ -153,6 +153,9 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             };
             create.IconHtmlClasses.Add("fa fa-plus fa-lg");
             view.ContextItems.Add(create);
+
+            foreach(var visitor in viewVisitors)
+                view.Accept(visitor);
 
             return view;
         }

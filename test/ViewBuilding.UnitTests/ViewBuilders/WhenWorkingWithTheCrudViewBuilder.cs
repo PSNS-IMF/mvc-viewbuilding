@@ -45,13 +45,13 @@ namespace ViewBuilding.UnitTests.ViewBuilders
     public class AndBuildingTheIndexView : WhenWorkingWithTheCrudViewBuilder
     {
         protected IndexView IndexView;
-        protected Mock<ITableVisitor> MockTableVisitor;
+        protected Mock<IIndexViewVisitor> MockViewVisitor;
 
         public override void Arrange()
         {
             base.Arrange();
 
-            MockTableVisitor = new Mock<ITableVisitor>();
+            MockViewVisitor = new Mock<IIndexViewVisitor>();
 
             RouteTable.Routes.Clear();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -100,7 +100,8 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("fa fa-search", string.Join(" ", IndexView.SearchControl.Button.IconHtmlClasses));
             Assert.AreEqual("{ class = pure-input, style = font-size: 100%;, name = searchQuery, type = text }", IndexView.SearchControl.InputHtml.ToString());
 
-            MockTableVisitor.Verify(v => v.Visit(IndexView.Table), Times.Once());
+            MockViewVisitor.Verify(v => v.Visit(IndexView.Table), Times.Once());
+            MockViewVisitor.Verify(v => v.Visit(IndexView), Times.Once());
         }
     }
 
@@ -565,7 +566,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
         {
             base.Act();
 
-            IndexView = Builder.BuildIndexView<TestEntity>(null, null, null, null, null, null, null, MockTableVisitor.Object);
+            IndexView = Builder.BuildIndexView<TestEntity>(null, null, null, null, null, null, null, MockViewVisitor.Object);
         }
 
         [TestMethod]
@@ -583,8 +584,8 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("Name of Two", IndexView.Table.Rows[1].Columns[0].Value);
             Assert.AreEqual(2, IndexView.Table.Rows[1].Columns[1].Value);
 
-            MockTableVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(16));
-            MockTableVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
+            MockViewVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(16));
+            MockViewVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
         }
     }
 
@@ -632,7 +633,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
         {
             base.Act();
 
-            IndexView = Builder.BuildIndexView<TestEntity>(null, null, null, null, null, null, null, MockTableVisitor.Object);
+            IndexView = Builder.BuildIndexView<TestEntity>(null, null, null, null, null, null, null, MockViewVisitor.Object);
         }
 
         [TestMethod]
@@ -651,8 +652,8 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("Name of Two", IndexView.Table.Rows[1].Columns[0].Value);
             Assert.AreEqual(2, IndexView.Table.Rows[1].Columns[1].Value);
 
-            MockTableVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(16));
-            MockTableVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
+            MockViewVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(16));
+            MockViewVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
         }
     }
 
@@ -686,7 +687,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
         {
             base.Act();
 
-            IndexView = Builder.BuildIndexView<TestEntity>(null, null, null, null, null, null, null, MockTableVisitor.Object);
+            IndexView = Builder.BuildIndexView<TestEntity>(null, null, null, null, null, null, null, MockViewVisitor.Object);
         }
 
         [TestMethod]
@@ -703,8 +704,8 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual(2, IndexView.Table.Rows[1].Columns[1].Value);
             Assert.AreEqual("{ class = pure-table-odd, data-link = /TestEntities/2 }", IndexView.Table.Rows[1].Html.ToString());
 
-            MockTableVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(16));
-            MockTableVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
+            MockViewVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(16));
+            MockViewVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
         }
     }
 
@@ -713,7 +714,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
     {
         CrudViewBuilder _builder;
         IndexView _indexView;
-        Mock<ITableVisitor> _mockTableVisitor;
+        Mock<IIndexViewVisitor> _mockViewVisitor;
         Mock<IRepositoryFactory> _mockRepositoryFactory;
 
         public override void Arrange()
@@ -734,7 +735,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
                 });
 
             _builder = new CrudViewBuilder(_mockRepositoryFactory.Object);
-            _mockTableVisitor = new Mock<ITableVisitor>();
+            _mockViewVisitor = new Mock<IIndexViewVisitor>();
 
             RouteTable.Routes.Clear();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -760,7 +761,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
         {
             base.Act();
 
-            _indexView = _builder.BuildIndexView<NullableTestEntity>(null, null, null, null, null, null, null, _mockTableVisitor.Object);
+            _indexView = _builder.BuildIndexView<NullableTestEntity>(null, null, null, null, null, null, null, _mockViewVisitor.Object);
         }
 
         [TestMethod]
@@ -782,9 +783,9 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("Name of Two", _indexView.Table.Rows[1].Columns[0].Value);
             Assert.AreEqual(2, _indexView.Table.Rows[1].Columns[1].Value);
 
-            _mockTableVisitor.Verify(v => v.Visit(_indexView.Table), Times.Once());
-            _mockTableVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(4));
-            _mockTableVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
+            _mockViewVisitor.Verify(v => v.Visit(_indexView.Table), Times.Once());
+            _mockViewVisitor.Verify(v => v.Visit(It.IsAny<Column>()), Times.Exactly(4));
+            _mockViewVisitor.Verify(v => v.Visit(It.IsAny<Row>()), Times.Exactly(2));
         }
     }
 

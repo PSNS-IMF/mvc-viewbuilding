@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 2.0.0.0-rc1
+      ### Features
+      * Updating CrudViewBuild.BuildIndexView to accept IIndexViewVisitor instead of ITableViewVisitor
+
       ## 1.0.0.2
       ### Fixes
       * Incrementing version to propagate nuspec corrections.
@@ -22,6 +26,7 @@
     </releaseNotes>
     <projectUrl>https://github.com/PSNS-IMF/mvc-viewbuilding</projectUrl>
     <licenseUrl>https://github.com/PSNS-IMF/mvc-viewbuilding/blob/master/LICENSE.md</licenseUrl>
+    <tags>PSNS mvc4 mvc5 asp.net mvc AspNetMvc model automation crud views viewbuilding</tags>
     <copyright>Copyright 2015</copyright>
     <version>$version$</version>
     <dependencies>
