@@ -33,7 +33,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             string searchQuery = null,
             params IIndexViewVisitor[] viewVisitors) where T : class, IIdentifiable;
 
-        DetailsView BuildDetailsView<T>(int id) where T : class, IIdentifiable, INameable;
+        DetailsView BuildDetailsView<T>(int id, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
         UpdateView BuildUpdateView<T>(int? id) where T : class, IIdentifiable, INameable;
         UpdateView BuildUpdateView<T>(T model) where T : class, IIdentifiable, INameable;
 
@@ -160,7 +160,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             return view;
         }
 
-        public DetailsView BuildDetailsView<T>(int id) where T : class, IIdentifiable, INameable
+        public DetailsView BuildDetailsView<T>(int id, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable
         {
             int orderCount = 0;
             var detailsProperties = typeof(T)
@@ -202,11 +202,23 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                     Value = GetPropertyValue<T>(model, property)
                 };
 
+                foreach(var visitor in viewVisitors)
+                {
+                    visitor.Visit(titleColumn);
+                    visitor.Visit(valueColumn);
+                }
+
                 row.Columns.Add(titleColumn);
                 row.Columns.Add(valueColumn);
 
+                foreach(var visitor in viewVisitors)
+                    visitor.Visit(row);
+
                 view.Table.Rows.Add(row);
             }
+
+            foreach(var visitor in viewVisitors)
+                visitor.Visit(view.Table);
 
             var up = new ActionModel
             {
@@ -275,6 +287,9 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             delete.Submit.IconHtmlClasses.Add("fa fa-trash-o fa-lg");
 
             view.ContextItems.Add(delete);
+
+            foreach(var visitor in viewVisitors)
+                visitor.Visit(view);
 
             return view;
         }

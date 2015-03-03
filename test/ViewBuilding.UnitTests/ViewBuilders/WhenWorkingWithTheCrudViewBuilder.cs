@@ -102,6 +102,14 @@ namespace ViewBuilding.UnitTests.ViewBuilders
 
             MockViewVisitor.Verify(v => v.Visit(IndexView.Table), Times.Once());
             MockViewVisitor.Verify(v => v.Visit(IndexView), Times.Once());
+
+            foreach(var row in IndexView.Table.Rows)
+            {
+                MockViewVisitor.Verify(v => v.Visit(row), Times.Once());
+
+                foreach(var column in row.Columns)
+                    MockViewVisitor.Verify(v => v.Visit(column), Times.Once());
+            }
         }
     }
 
@@ -1309,6 +1317,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
     {
         protected DetailsView DetailsView;
         protected TestEntity Entity;
+        protected Mock<IDetailsViewVisitor> MockViewVisitor;
 
         public override void Arrange()
         {
@@ -1343,13 +1352,15 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             {
                 Entity
             });
+
+            MockViewVisitor = new Mock<IDetailsViewVisitor>();
         }
 
         public override void Act()
         {
             base.Act();
 
-            DetailsView = Builder.BuildDetailsView<TestEntity>(1);
+            DetailsView = Builder.BuildDetailsView<TestEntity>(1, MockViewVisitor.Object);
         }
 
         protected void AssertCommon()
@@ -1380,6 +1391,17 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual(ActionType.Button, form.Submit.Type);
             Assert.AreEqual("{ class = pure-button button-warning, title = Delete Entity One, type = submit }", form.Submit.Html.ToString());
             Assert.AreEqual("fa fa-trash-o fa-lg", form.Submit.IconHtmlClasses[0]);
+
+            MockViewVisitor.Verify(v => v.Visit(DetailsView.Table), Times.Once());
+            MockViewVisitor.Verify(v => v.Visit(DetailsView), Times.Once());
+
+            foreach(var row in DetailsView.Table.Rows)
+            {
+                MockViewVisitor.Verify(v => v.Visit(row), Times.Once());
+
+                foreach(var column in row.Columns)
+                    MockViewVisitor.Verify(v => v.Visit(column), Times.Once());
+            }
         }
     }
 

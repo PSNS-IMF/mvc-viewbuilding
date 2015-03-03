@@ -8,14 +8,14 @@ using Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel;
 namespace Psns.Common.Mvc.ViewBuilding.ViewModels
 {
     /// <summary>
-    /// Defines a visitor for the IndexView model
+    /// Defines a visitor for the DetailsView model
     /// </summary>
-    public interface IIndexViewVisitor : ITableVisitor
+    public interface IDetailsViewVisitor : ITableVisitor
     {
         /// <summary>
-        /// Defines a method that receives the IndexView being visited
+        /// Defines a method that receives the DetailsView being visited
         /// </summary>
-        /// <param name="indexView">The IndexView being visited</param>
-        void Visit(IndexView view);
+        /// <param name="indexView">The DetailsView being visited</param>
+        void Visit(DetailsView view);
     }
 }

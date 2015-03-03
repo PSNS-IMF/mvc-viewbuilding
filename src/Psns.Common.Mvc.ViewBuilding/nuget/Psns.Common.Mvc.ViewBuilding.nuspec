@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 2.0.0
+      ### Features
+      * Adding visitor capabilities for the DetailsView
+
       ## 2.0.0.0-rc1
       ### Features
       * Updating CrudViewBuild.BuildIndexView to accept IIndexViewVisitor instead of ITableViewVisitor
