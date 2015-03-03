@@ -93,6 +93,7 @@
     <Compile Include="src\$(RootNamespace)\ViewModels\DetailsView.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\FilterOption.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\Form.cs" />
+    <Compile Include="src\$(RootNamespace)\ViewModels\IIndexViewVisitor.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\IndexView.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\InputProperty.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\Pager.cs" />
