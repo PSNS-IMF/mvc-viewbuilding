@@ -87,7 +87,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("AnotherEntity", IndexView.Table.Header.Columns[4].Value);
             Assert.AreEqual("Other Another Entity", IndexView.Table.Header.Columns[5].Value);
 
-            var action = IndexView.ContextItems[0] as ActionModel;
+            var action = IndexView.CreateButton;
             Assert.AreEqual(ActionType.Link, action.Type);
             Assert.AreEqual("Default", action.RouteName);
             Assert.AreEqual("{ controller = TestEntities, action = Update }", action.RouteValues.ToString());

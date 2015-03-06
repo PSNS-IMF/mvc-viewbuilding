@@ -152,7 +152,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                 })
             };
             create.IconHtmlClasses.Add("fa fa-plus fa-lg");
-            view.ContextItems.Add(create);
+            view.CreateButton = create;
 
             foreach(var visitor in viewVisitors)
                 view.Accept(visitor);

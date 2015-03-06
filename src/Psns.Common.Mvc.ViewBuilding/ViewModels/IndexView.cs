@@ -24,6 +24,11 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels
             ModelName = modelName;
         }
 
+        /// <summary>
+        /// Represents the Create New Item button on the Index View
+        /// </summary>
+        public ActionModel CreateButton { get; set; }
+
         public readonly Table Table;
         public readonly Pager Pager;
 
