@@ -14,7 +14,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels
     {
         public DetailsView()
         {
-            Table = new Table();
+            Table = new Table(null);
         }
 
         public readonly Table Table;

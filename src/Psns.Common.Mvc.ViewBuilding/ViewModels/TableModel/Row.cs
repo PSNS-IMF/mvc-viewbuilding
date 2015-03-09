@@ -7,10 +7,11 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
 {
     public class Row : ITableElement
     {
-        public Row()
+        public Row(object source)
         {
             Html = new AttributeDictionary();
             Columns = new Collection<Column>();
+            Source = source;
         }
 
         public int Id { get; set; }
@@ -22,5 +23,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
         {
             visitor.Visit(this);
         }
+
+        public object Source { get; private set; }
     }
 }

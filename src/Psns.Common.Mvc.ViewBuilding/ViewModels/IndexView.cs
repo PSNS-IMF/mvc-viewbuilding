@@ -18,7 +18,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels
         /// <param name="modelName">The name of the model being represented in the index view</param>
         public IndexView(string modelName)
         {
-            Table = new Table();
+            Table = new Table(null);
             Pager = new Pager();
             SearchControl = new SearchControl();
             ModelName = modelName;

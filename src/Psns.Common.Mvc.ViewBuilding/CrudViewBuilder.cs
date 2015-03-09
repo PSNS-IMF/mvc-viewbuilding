@@ -97,7 +97,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             int rowCount = 0;
             foreach(var mappable in entities)
             {
-                var row = new Row { Id = mappable.Id };
+                var row = new Row(mappable) { Id = mappable.Id };
 
                 if(++rowCount % 2 == 0)
                     row.Html["class"] = "pure-table-odd";
@@ -116,7 +116,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                     if(value == null)
                         value = string.Empty;
 
-                    var column = new Column { Value = value };
+                    var column = new Column(mappable) { Value = value };
 
                     foreach(var visitor in viewVisitors)
                         column.Accept(visitor);
@@ -188,16 +188,16 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
 
             foreach(var property in detailsProperties)
             {
-                var row = new Row();
+                var row = new Row(model);
 
-                var titleColumn = new Column
+                var titleColumn = new Column(model)
                 {
                     Value = GetPropertyName(property)
                 };
 
                 titleColumn.Html["style"] = "font-weight:bold;";
 
-                var valueColumn = new Column
+                var valueColumn = new Column(model)
                 {
                     Value = GetPropertyValue<T>(model, property)
                 };
@@ -663,7 +663,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
         {
             foreach(var property in indexProperties)
             {
-                table.Header.Columns.Add(new Column { Value = GetPropertyName(property) });
+                table.Header.Columns.Add(new Column(null) { Value = GetPropertyName(property) });
             }
         }
 

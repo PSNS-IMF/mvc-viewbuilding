@@ -9,9 +9,10 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
 {
     public class Column : ITableElement
     {
-        public Column()
+        public Column(object source)
         {
             Html = new AttributeDictionary();
+            Source = source;
         }
 
         public object Value { get; set; }
@@ -22,5 +23,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
         {
             visitor.Visit(this);
         }
+
+        public object Source { get; private set; }
     }
 }

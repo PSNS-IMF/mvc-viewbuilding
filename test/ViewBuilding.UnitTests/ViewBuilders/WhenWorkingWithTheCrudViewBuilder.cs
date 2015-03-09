@@ -106,9 +106,13 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             foreach(var row in IndexView.Table.Rows)
             {
                 MockViewVisitor.Verify(v => v.Visit(row), Times.Once());
+                Assert.IsNotNull(row.Source);
 
                 foreach(var column in row.Columns)
+                {
                     MockViewVisitor.Verify(v => v.Visit(column), Times.Once());
+                    Assert.IsNotNull(column.Source);
+                }
             }
         }
     }
@@ -1398,9 +1402,13 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             foreach(var row in DetailsView.Table.Rows)
             {
                 MockViewVisitor.Verify(v => v.Visit(row), Times.Once());
+                Assert.IsNotNull(row.Source);
 
                 foreach(var column in row.Columns)
+                {
                     MockViewVisitor.Verify(v => v.Visit(column), Times.Once());
+                    Assert.IsNotNull(column.Source);
+                }
             }
         }
     }

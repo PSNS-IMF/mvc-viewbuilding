@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 4.0.0
+      ### Features
+      * Adding a reference property to view models from which the source object they were built
+
       ## 3.0.0
       ### Features
       * Moving IndexView Create Button out of ContextItems and into its own property
