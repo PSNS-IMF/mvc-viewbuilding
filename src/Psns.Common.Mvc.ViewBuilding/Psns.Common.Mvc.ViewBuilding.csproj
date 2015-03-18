@@ -50,6 +50,9 @@
     <Reference Include="Psns.Common.Persistence.Definitions">
       <HintPath>..\..\packages\Psns.Common.Persistence.Definitions.1.0.3.0\lib\net40\Psns.Common.Persistence.Definitions.dll</HintPath>
     </Reference>
+    <Reference Include="Psns.Common.Web.Adapters">
+      <HintPath>..\..\packages\Psns.Common.Web.Adapters.1.0.0.4\lib\net40\Psns.Common.Web.Adapters.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -57,7 +60,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,15 +72,15 @@
     </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -91,6 +94,12 @@
     <Compile Include="Attributes\ViewComplexPropertyForeignKeyAttribute.cs" />
     <Compile Include="Attributes\ViewDisplayablePropertyAttribute.cs" />
     <Compile Include="Attributes\ViewUpdatablePropertyAttribute.cs" />
+    <Compile Include="Controllers\CrudController.cs" />
+    <Compile Include="Controllers\IBaseController.cs" />
+    <Compile Include="Controllers\IDeleteable.cs" />
+    <Compile Include="Controllers\IDetailable.cs" />
+    <Compile Include="Controllers\IIndexable.cs" />
+    <Compile Include="Controllers\IUpdatable.cs" />
     <Compile Include="CrudViewBuilder.cs" />
     <Compile Include="Entities\CrudEntityExtensions.cs" />
     <Compile Include="Entities\INameable.cs" />

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Psns.Common.Web.Adapters</name>
+    </assembly>
+    <members>
+        <member name="T:Psns.Common.Web.Adapters.AntiForgeryHelperAdapter">
+            <summary>
+            An adapter for AntiForgery.Validate to better enable loose coupling
+            </summary>
+        </member>
+        <member name="F:Psns.Common.Web.Adapters.AntiForgeryHelperAdapter.ValidationFunction">
+            <summary>
+            An alternate validation function that will be called instead of AntiForgery.Validate
+            </summary>
+        </member>
+        <member name="M:Psns.Common.Web.Adapters.AntiForgeryHelperAdapter.Validate">
+            <summary>
+            Will call ValidationFuncion if defined; otherwise, Antiforgery.Validate is called
+            </summary>
+        </member>
+        <member name="T:Psns.Common.Web.Adapters.HttpClientCertificateAdapter">
+            <summary>
+            An adapter for HttpRequest.ClientCertificate to better enable loose coupling
+            </summary>
+        </member>
+        <member name="P:Psns.Common.Web.Adapters.HttpClientCertificateAdapter.Subject">
+            <summary>
+            Unless explicitly set, HttpContext.Current.Request.ClientCertificate.Subject is returned
+            </summary>
+        </member>
+        <member name="T:Psns.Common.Web.Adapters.HttpContextAdapter">
+            <summary>
+            An adapter for HttpContext.Current to better enable loose coupling
+            </summary>
+        </member>
+        <member name="P:Psns.Common.Web.Adapters.HttpContextAdapter.Current">
+            <summary>
+            Unless explicitly set, HttpContext.Current is returned
+            </summary>
+        </member>
+    </members>
+</doc>

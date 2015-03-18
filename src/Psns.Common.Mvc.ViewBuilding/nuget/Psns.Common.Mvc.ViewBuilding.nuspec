@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 4.1.0
+      ### Features
+      * Importing CrudController from Crudified Mvc Model so that CrudViewBuilder can be sub-classed.
+
       ## 4.0.0
       ### Features
       * Adding a reference property to view models from which the source object they were built
@@ -44,10 +48,12 @@
       <group targetFramework="net40">
         <dependency id="Psns.Common.Persistence.Definitions" version="1.0.3.0" />
         <dependency id="Microsoft.AspNet.Mvc" version="4.0.40804.0" />
+        <dependency id="Psns.Common.Web.Adapters" version="1.0.0.4" />
       </group>
       <group targetFramework="net45">
         <dependency id="Psns.Common.Persistence.Definitions" version="1.0.3.0" />
         <dependency id="Microsoft.AspNet.Mvc" version="5.2.3" />
+        <dependency id="Psns.Common.Web.Adapters" version="1.0.0.4" />
       </group>
     </dependencies>
     <frameworkAssemblies>
