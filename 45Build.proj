@@ -42,6 +42,9 @@
     <Reference Include="Psns.Common.Persistence.Definitions">
       <HintPath>packages\Psns.Common.Persistence.Definitions.1.0.3.0\lib\net45\Psns.Common.Persistence.Definitions.dll</HintPath>
     </Reference>
+    <Reference Include="Psns.Common.Web.Adapters">
+      <HintPath>packages\Psns.Common.Web.Adapters.1.0.0.4\lib\net45\Psns.Common.Web.Adapters.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -84,6 +87,12 @@
     <Compile Include="src\$(RootNamespace)\Attributes\ViewComplexPropertyForeignKeyAttribute.cs" />
     <Compile Include="src\$(RootNamespace)\Attributes\ViewDisplayablePropertyAttribute.cs" />
     <Compile Include="src\$(RootNamespace)\Attributes\ViewUpdatablePropertyAttribute.cs" />
+    <Compile Include="src\$(RootNamespace)\Controllers\CrudController.cs" />
+    <Compile Include="src\$(RootNamespace)\Controllers\IBaseController.cs" />
+    <Compile Include="src\$(RootNamespace)\Controllers\IDeleteable.cs" />
+    <Compile Include="src\$(RootNamespace)\Controllers\IDetailable.cs" />
+    <Compile Include="src\$(RootNamespace)\Controllers\IIndexable.cs" />
+    <Compile Include="src\$(RootNamespace)\Controllers\IUpdatable.cs" />
     <Compile Include="src\$(RootNamespace)\CrudViewBuilder.cs" />
     <Compile Include="src\$(RootNamespace)\Entities\CrudEntityExtensions.cs" />
     <Compile Include="src\$(RootNamespace)\Entities\INameable.cs" />
