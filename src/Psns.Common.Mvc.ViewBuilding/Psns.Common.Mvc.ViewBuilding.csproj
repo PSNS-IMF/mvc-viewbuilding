@@ -111,9 +111,11 @@
     <Compile Include="ViewModels\FilterOption.cs" />
     <Compile Include="ViewModels\Form.cs" />
     <Compile Include="ViewModels\IDetailsViewVisitor.cs" />
+    <Compile Include="ViewModels\IFilterOptionVisitor.cs" />
     <Compile Include="ViewModels\IIndexViewVisitor.cs" />
     <Compile Include="ViewModels\IndexView.cs" />
     <Compile Include="ViewModels\InputProperty.cs" />
+    <Compile Include="ViewModels\IVisitable.cs" />
     <Compile Include="ViewModels\Menu\GlobalMenu.cs" />
     <Compile Include="ViewModels\Menu\IContextMenu.cs" />
     <Compile Include="ViewModels\Menu\IMenuItem.cs" />

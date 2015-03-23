@@ -38,6 +38,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
         UpdateView BuildUpdateView<T>(T model) where T : class, IIdentifiable, INameable;
 
         IEnumerable<FilterOption> GetIndexFilterOptions<T>() where T : class, IIdentifiable;
+        IEnumerable<FilterOption> GetIndexFilterOptions<T>(params IFilterOptionVisitor[] filterOptionVisitors) where T : class, IIdentifiable;
     }
 
     public class CrudViewBuilder : ICrudViewBuilder
@@ -466,11 +467,34 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
 
         public IEnumerable<FilterOption> GetIndexFilterOptions<T>() where T : class, IIdentifiable
         {
+            return GetIndexFilterOptions<T>(null);
+        }
+
+        /// <summary>
+        /// Used to populate the index view filter menus. If an IFilterOptionsVisitor sets an item to null,
+        /// then it will not be included in the results.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filterOptionVisitors"></param>
+        /// <returns></returns>
+        public IEnumerable<FilterOption> GetIndexFilterOptions<T>(params IFilterOptionVisitor[] filterOptionVisitors) where T : class, IIdentifiable
+        {
             var columnNameOptionsMap = new Dictionary<string, List<string>>();
             var indexProperties = GetIndexProperties<T>();
 
             foreach(var item in _repositoryFactory.Get<T>().All(CrudEntityExtensions.GetComplexPropertyNames(indexProperties)))
             {
+                if(filterOptionVisitors != null)
+                {
+                    var identifiable = item as IIdentifiable;
+
+                    foreach(var visitor in filterOptionVisitors)
+                        identifiable = visitor.Visit(identifiable);
+
+                    if(identifiable == null)
+                        continue;
+                }
+
                 foreach(var property in indexProperties)
                 {
                     string columnName = GetPropertyName(property);
@@ -481,7 +505,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                     var value = GetPropertyValue<T>(item, property);
 
                     if(value != null)
-                        columnNameOptionsMap[columnName].Add(GetPropertyValue<T>(item, property).ToString());
+                        columnNameOptionsMap[columnName].Add(value.ToString());
                 }
             }
 

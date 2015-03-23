@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 4.2.0
+      ### Features
+      * Allow visitors to be passed in for building index filter options.
+
       ## 4.1.0
       ### Features
       * Importing CrudController from Crudified Mvc Model so that CrudViewBuilder can be sub-classed.

@@ -1253,20 +1253,16 @@ namespace ViewBuilding.UnitTests.ViewBuilders
 
     #region GetIndexFilterOptions
 
-    [TestClass]
     public class AndGettingIndexFilterOptions : WhenWorkingWithTheCrudViewBuilder
     {
-        protected IEnumerable<FilterOption> Results;
+        protected List<FilterOption> Results;
+        protected List<TestEntity> EntityList;
 
         public override void Arrange()
         {
             base.Arrange();
 
-            MockRepository.Setup(r => r.All("AnotherEntities",
-                "AnotherEntity",
-                "OtherAnotherEntities",
-                "RequiredEntity",
-                "ForeignKey")).Returns(new List<TestEntity>
+            EntityList = new List<TestEntity>
             {
                 new TestEntity
                 {
@@ -1279,19 +1275,21 @@ namespace ViewBuilding.UnitTests.ViewBuilders
                         new AnotherEntity { Id = 1, StringProperty = "Another Entity One" },
                         new AnotherEntity { Id = 2, StringProperty = "Another Entity Two" }
                     }
+                },
+                new TestEntity
+                {
+                    Id = 2
                 }
-            });
+            };
+
+            MockRepository.Setup(r => r.All("AnotherEntities",
+                "AnotherEntity",
+                "OtherAnotherEntities",
+                "RequiredEntity",
+                "ForeignKey")).Returns(EntityList);
         }
 
-        public override void Act()
-        {
-            base.Act();
-
-            Results = Builder.GetIndexFilterOptions<TestEntity>();
-        }
-
-        [TestMethod]
-        public void ThenAMapOfFilterOptionsShouldBeReturned()
+        protected void AssertCommon()
         {
             Assert.AreEqual(8, Results.Count());
 
@@ -1310,6 +1308,94 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("AnotherEntity", Results.ElementAt(4).Label);
 
             Assert.AreEqual("Other Another Entity", Results.ElementAt(5).Label);
+        }
+    }
+
+    [TestClass]
+    public class WithNoVisitorsBeingPassed : AndGettingIndexFilterOptions
+    {
+        public override void Act()
+        {
+            base.Act();
+
+            Results = Builder.GetIndexFilterOptions<TestEntity>().ToList();
+        }
+
+        [TestMethod]
+        public void ThenAMapOfFilterOptionsShouldBeReturned()
+        {
+            AssertCommon();
+        }
+    }
+
+    [TestClass]
+    public class WithAVisitorBeingPassed : AndGettingIndexFilterOptions
+    {
+        Mock<IFilterOptionVisitor> _mockVisitor;
+
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            _mockVisitor = new Mock<IFilterOptionVisitor>();
+            _mockVisitor.Setup(v => v.Visit(It.IsAny<TestEntity>())).Returns((IIdentifiable item) => item);
+        }
+
+        public override void Act()
+        {
+            base.Act();
+
+            Results = Builder.GetIndexFilterOptions<TestEntity>(_mockVisitor.Object).ToList();
+        }
+
+        [TestMethod]
+        public void ThenTheVisitorsVisitMethodShouldBeCalled()
+        {
+            AssertCommon();
+
+            Assert.AreEqual(2, Results.ElementAt(1).Children.Count());
+
+            for(int i = 0; i < EntityList.Count; i++)
+            {
+                var result = EntityList[i] as IIdentifiable;
+                _mockVisitor.Verify(v => v.Visit(result), Times.Once());
+            }
+        }
+    }
+
+    [TestClass]
+    public class WithAVisitorBeingPassedThatReturnsANullOption : AndGettingIndexFilterOptions
+    {
+        Mock<IFilterOptionVisitor> _mockVisitor;
+
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            _mockVisitor = new Mock<IFilterOptionVisitor>();
+            _mockVisitor.Setup(v => v.Visit(It.Is<TestEntity>(e => e.Id == 2))).Returns(() => null);
+            _mockVisitor.Setup(v => v.Visit(It.Is<TestEntity>(e => e.Id != 2))).Returns((IIdentifiable item) => item);
+        }
+
+        public override void Act()
+        {
+            base.Act();
+
+            Results = Builder.GetIndexFilterOptions<TestEntity>(_mockVisitor.Object).ToList();
+        }
+
+        [TestMethod]
+        public void ThenTheVisitorsVisitMethodShouldBeCalledAndTheNullOptionShouldNotBeAdded()
+        {
+            AssertCommon();
+
+            Assert.AreEqual(1, Results.ElementAt(1).Children.Count());
+
+            for(int i = 0; i < EntityList.Count; i++)
+            {
+                var result = EntityList[i] as IIdentifiable;
+                _mockVisitor.Verify(v => v.Visit(result), Times.Once());
+            }
         }
     }
 
