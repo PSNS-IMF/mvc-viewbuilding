@@ -37,7 +37,6 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
         UpdateView BuildUpdateView<T>(int? id) where T : class, IIdentifiable, INameable;
         UpdateView BuildUpdateView<T>(T model) where T : class, IIdentifiable, INameable;
 
-        IEnumerable<FilterOption> GetIndexFilterOptions<T>() where T : class, IIdentifiable;
         IEnumerable<FilterOption> GetIndexFilterOptions<T>(params IFilterOptionVisitor[] filterOptionVisitors) where T : class, IIdentifiable;
     }
 
@@ -463,11 +462,6 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             }
 
             return view;
-        }
-
-        public IEnumerable<FilterOption> GetIndexFilterOptions<T>() where T : class, IIdentifiable
-        {
-            return GetIndexFilterOptions<T>(null);
         }
 
         /// <summary>
