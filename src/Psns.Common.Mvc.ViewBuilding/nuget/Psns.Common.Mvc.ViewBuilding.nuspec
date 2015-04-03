@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 5.0.0
+      ### Features
+      * Moved activator into another module.
+      
       ## 4.3.0
       ### Features
       * Imported Api IndexViewController from Crudified.Mvc package so that GetFilterOptions can be overridden.
@@ -56,16 +60,14 @@
       <group targetFramework="net40">
         <dependency id="Psns.Common.Persistence.Definitions" version="1.0.3.0" />
         <dependency id="Microsoft.AspNet.Mvc" version="4.0.40804.0" />
-        <dependency id="Microsoft.AspNet.WebApi.WebHost" version="4.0.30506.0" />
+        <dependency id="Microsoft.AspNet.WebApi.Core" version="4.0.30506.0" />
         <dependency id="Psns.Common.Web.Adapters" version="1.0.0.4" />
-        <dependency id="WebActivatorEx" version="2.0.6" />
       </group>
       <group targetFramework="net45">
         <dependency id="Psns.Common.Persistence.Definitions" version="1.0.3.0" />
         <dependency id="Microsoft.AspNet.Mvc" version="5.2.3" />
-        <dependency id="Microsoft.AspNet.WebApi.WebHost" version="5.2.3" />
+        <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
         <dependency id="Psns.Common.Web.Adapters" version="1.0.0.4" />
-        <dependency id="WebActivatorEx" version="2.0.6" />
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -75,7 +77,6 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="content\**\*.*" target="content" />
     <file src="..\bin\$configuration$\*.Mvc.ViewBuilding.*" target="lib\net40\" />
     <file src="..\bin\$configuration$\net45\*.Mvc.ViewBuilding.*" target="lib\net45\" />
   </files>
