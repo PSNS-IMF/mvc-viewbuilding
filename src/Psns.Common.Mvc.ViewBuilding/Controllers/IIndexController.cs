@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 
 using Psns.Common.Mvc.ViewBuilding.ViewBuilders;
 using Psns.Common.Mvc.ViewBuilding.ViewModels;
@@ -10,7 +11,7 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
     /// <summary>
     /// Defines an api controller for an Index view
     /// </summary>
-    public interface IIndexController
+    public interface IIndexController : IHttpController, IDisposable
     {
         /// <summary>
         /// Defines a method that returns filter options for an Index view

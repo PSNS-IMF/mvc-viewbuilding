@@ -8,10 +8,15 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 5.0.1
+      ### Features
+      * Added IHttpController, IDisposable interfaces to IIndexController.
+      * Made IndexController.GetFilterOptions virtual.
+
       ## 5.0.0
       ### Features
       * Moved activator into another module.
-      
+
       ## 4.3.0
       ### Features
       * Imported Api IndexViewController from Crudified.Mvc package so that GetFilterOptions can be overridden.
