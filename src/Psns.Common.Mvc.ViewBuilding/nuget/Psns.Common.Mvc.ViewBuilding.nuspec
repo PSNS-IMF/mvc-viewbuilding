@@ -76,6 +76,7 @@
   </metadata>
   <files>
     <file src="content\**\*.*" target="content" />
+    <file src="readme.txt" target="" />
     <file src="..\bin\$configuration$\*.Mvc.ViewBuilding.*" target="lib\net40\" />
     <file src="..\bin\$configuration$\net45\*.Mvc.ViewBuilding.*" target="lib\net45\" />
   </files>
