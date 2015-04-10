@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 5.1.0
+      ### Features
+      * Added back in Activator to register controllers and global settings.
+
       ## 4.3.0
       ### Features
       * Imported Api IndexViewController from Crudified.Mvc package so that GetFilterOptions can be overridden.
