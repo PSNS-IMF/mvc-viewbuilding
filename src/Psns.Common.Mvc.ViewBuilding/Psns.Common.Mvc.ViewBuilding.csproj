@@ -111,7 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\ViewBuildingActivator.cs" />
+    <Content Include="App_Start\ViewBuildingActivator.cs" />
     <Compile Include="Attributes\InputPropertyType.cs" />
     <Compile Include="Attributes\ViewComplexPropertyAttribute.cs" />
     <Compile Include="Attributes\ViewComplexPropertyForeignKeyAttribute.cs" />
@@ -158,7 +158,7 @@
     <Compile Include="ViewModels\View.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="nuget\content\App_Start\ViewBuildingActivator.cs.pp" />
+    <Content Include="nuget\content\App_Start\ViewBuildingActivator.cs.pp" />
     <None Include="nuget\Psns.Common.Mvc.ViewBuilding.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
