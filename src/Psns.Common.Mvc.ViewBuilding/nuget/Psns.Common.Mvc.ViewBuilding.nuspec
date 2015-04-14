@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 5.1.2
+      ### Features
+      * Adding a Ninject module that will bind ICrudViewBuilder to the CrudViewBuilder.
+
       ## 5.1.1
       ### Bug Fixes
       * Removing Activator from compilation since it's a code template file.

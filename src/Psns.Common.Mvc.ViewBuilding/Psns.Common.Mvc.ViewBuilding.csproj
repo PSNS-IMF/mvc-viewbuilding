@@ -128,6 +128,7 @@
     <Compile Include="CrudViewBuilder.cs" />
     <Compile Include="Entities\CrudEntityExtensions.cs" />
     <Compile Include="Entities\INameable.cs" />
+    <Compile Include="Infrastructure\ViewBuildingNinjectModule.cs" />
     <Compile Include="Infrastructure\WebApiConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Adapters\RequestContextAdapter.cs" />

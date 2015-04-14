@@ -115,6 +115,7 @@
     <Compile Include="src\$(RootNamespace)\Entities\CrudEntityExtensions.cs" />
     <Compile Include="src\$(RootNamespace)\Entities\INameable.cs" />
     <Compile Include="src\$(RootNamespace)\Infrastructure\WebApiConfig.cs" />
+    <Compile Include="src\$(RootNamespace)\Infrastructure\ViewBuildingNinjectModule.cs" />
     <Compile Include="src\$(RootNamespace)\Properties\AssemblyInfo.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\ActionModel.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\AttributeDictionary.cs" />
