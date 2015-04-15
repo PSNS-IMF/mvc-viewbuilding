@@ -1659,6 +1659,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("Id", select.DataValueField);
             Assert.AreEqual(4, select.Items.Count());
 
+            Assert.AreEqual("RequiredEntity *", UpdateView.InputProperties[6].Label);
             select = UpdateView.InputProperties[6].Value as SelectList;
             Assert.AreEqual("StringProperty", select.DataTextField);
             Assert.AreEqual("Id", select.DataValueField);
@@ -1668,6 +1669,12 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("StringProperty", select.DataTextField);
             Assert.AreEqual("Id", select.DataValueField);
             Assert.AreEqual(4, select.Items.Count());
+
+            foreach(var property in UpdateView.InputProperties)
+            {
+                Assert.AreEqual(1, (property.Source as TestEntity).Id);
+                Assert.AreEqual("Entity One", (property.Source as TestEntity).Name);
+            }
         }
     }
 
@@ -1845,6 +1852,79 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             Assert.AreEqual("StringProperty", select.DataTextField);
             Assert.AreEqual("Id", select.DataValueField);
             Assert.AreEqual(4, select.Items.Count());
+        }
+    }
+
+    public class AndGivenViewVisitors : AndBuildingTheUpdateView
+    {
+        protected Mock<IUpdateViewVisitor> MockUpdateVisitor;
+
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            MockUpdateVisitor = new Mock<IUpdateViewVisitor>();
+        }
+
+        protected void AssertCommon()
+        {
+            MockUpdateVisitor.Verify(v => v.Visit(It.IsAny<InputProperty>()), Times.Exactly(8));
+        }
+    }
+
+    [TestClass]
+    public class ForAModel : AndGivenViewVisitors
+    {
+        public override void Act()
+        {
+            UpdateView = Builder.BuildUpdateView<TestEntity>(new TestEntity { Id = 1 }, MockUpdateVisitor.Object); 
+        }
+
+        [TestMethod]
+        public void ThenTheVisitorShouldVisitEveryInputPropertyOfTheModel()
+        {
+            AssertCommon();
+        }
+    }
+
+    [TestClass]
+    public class ForAnId : AndGivenViewVisitors
+    {
+        public override void Act()
+        {
+            UpdateView = Builder.BuildUpdateView<TestEntity>(1, MockUpdateVisitor.Object);
+        }
+
+        [TestMethod]
+        public void ThenTheVisitorShouldVisitEveryInputPropertyOfTheModel()
+        {
+            AssertCommon();
+        }
+    }
+
+    [TestClass]
+    public class ForAnIdAndTheVisitorReturnsANullInputProperty : AndGivenViewVisitors
+    {
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            MockUpdateVisitor.Setup(v => v.Visit(It.Is<InputProperty>(p => p.Label == "Name *"))).Returns(new InputProperty());
+            MockUpdateVisitor.Setup(v => v.Visit(It.Is<InputProperty>(p => p.Label == "RequiredEntity *"))).Returns(() => null);
+        }
+
+        public override void Act()
+        {
+            UpdateView = Builder.BuildUpdateView<TestEntity>(new TestEntity { Name = "One", RequiredEntity = new AnotherEntity() }, 
+                MockUpdateVisitor.Object);
+        }
+
+        [TestMethod]
+        public void ThenTheNulledPropertyShouldNotBeInTheRenderedUpdateView()
+        {
+            AssertCommon();
+
+            Assert.AreEqual(1, UpdateView.InputProperties.Count);
         }
     }
 

@@ -142,6 +142,7 @@
     <Compile Include="ViewModels\IIndexViewVisitor.cs" />
     <Compile Include="ViewModels\IndexView.cs" />
     <Compile Include="ViewModels\InputProperty.cs" />
+    <Compile Include="ViewModels\IUpdateViewVisitor.cs" />
     <Compile Include="ViewModels\IVisitable.cs" />
     <Compile Include="ViewModels\Menu\GlobalMenu.cs" />
     <Compile Include="ViewModels\Menu\IContextMenu.cs" />

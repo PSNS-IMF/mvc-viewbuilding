@@ -34,8 +34,8 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             params IIndexViewVisitor[] viewVisitors) where T : class, IIdentifiable;
 
         DetailsView BuildDetailsView<T>(int id, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
-        UpdateView BuildUpdateView<T>(int? id) where T : class, IIdentifiable, INameable;
-        UpdateView BuildUpdateView<T>(T model) where T : class, IIdentifiable, INameable;
+        UpdateView BuildUpdateView<T>(int? id, params IUpdateViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
+        UpdateView BuildUpdateView<T>(T model, params IUpdateViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
 
         IEnumerable<FilterOption> GetIndexFilterOptions<T>(params IFilterOptionVisitor[] filterOptionVisitors) where T : class, IIdentifiable;
     }
@@ -294,7 +294,15 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             return view;
         }
 
-        public UpdateView BuildUpdateView<T>(int? id) where T : class, IIdentifiable, INameable
+        /// <summary>
+        /// Creates an update view. If an IUpdateViewVisitor sets an InputProperty to null,
+        /// then that property will not be rendered in the view.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id">The id of the model to lookup in the repository factory</param>
+        /// <param name="viewVisitors"></param>
+        /// <returns></returns>
+        public UpdateView BuildUpdateView<T>(int? id, params IUpdateViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable
         {
             T model;
             if(!id.HasValue)
@@ -312,10 +320,18 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                     id));
             }
 
-            return BuildUpdateView(model);
+            return BuildUpdateView(model, viewVisitors);
         }
 
-        public UpdateView BuildUpdateView<T>(T model) where T : class, IIdentifiable, INameable
+        /// <summary>
+        /// Creates an update view. If an IUpdateViewVisitor sets an InputProperty to null,
+        /// then that property will not be rendered in the view.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model">The model used to generate the view</param>
+        /// <param name="viewVisitors"></param>
+        /// <returns></returns>
+        public UpdateView BuildUpdateView<T>(T model, params IUpdateViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable
         {
             if(model == null)
                 throw new InvalidOperationException("Model cannot be null");
@@ -396,8 +412,20 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                 {
                     Label = labelText,
                     Type = updatableAttribute.InputPropertyType,
-                    ModelName = propertyInfo.Name
+                    ModelName = propertyInfo.Name,
+                    Source = model
                 };
+
+                if(viewVisitors != null && viewVisitors.Length > 0)
+                {
+                    InputProperty visited = null;
+
+                    foreach(var visitor in viewVisitors)
+                        visited = visitor.Visit(inputProperty);
+
+                    if(visited == null)
+                        continue;
+                }
 
                 var value = propertyInfo.GetValue(model, null);
 
