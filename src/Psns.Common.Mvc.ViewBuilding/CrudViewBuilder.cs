@@ -116,7 +116,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                     if(value == null)
                         value = string.Empty;
 
-                    var column = new Column(mappable) { Value = value };
+                    var column = new Column(property) { Value = value };
 
                     foreach(var visitor in viewVisitors)
                         column.Accept(visitor);
@@ -190,14 +190,14 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             {
                 var row = new Row(model);
 
-                var titleColumn = new Column(model)
+                var titleColumn = new Column(property)
                 {
                     Value = GetPropertyName(property)
                 };
 
                 titleColumn.Html["style"] = "font-weight:bold;";
 
-                var valueColumn = new Column(model)
+                var valueColumn = new Column(property)
                 {
                     Value = GetPropertyValue<T>(model, property)
                 };

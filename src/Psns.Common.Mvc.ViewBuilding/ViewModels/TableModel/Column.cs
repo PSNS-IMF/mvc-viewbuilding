@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Reflection;
+
 using Psns.Common.Mvc.ViewBuilding.ViewModels;
 
 namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
 {
     public class Column : ITableElement
     {
-        public Column(object source)
+        public Column(PropertyInfo source)
         {
             Html = new AttributeDictionary();
             Source = source;
@@ -24,6 +26,6 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
             visitor.Visit(this);
         }
 
-        public object Source { get; private set; }
+        public PropertyInfo Source { get; private set; }
     }
 }

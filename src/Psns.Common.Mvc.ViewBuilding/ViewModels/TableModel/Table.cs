@@ -3,11 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
+using Psns.Common.Persistence.Definitions;
+
 namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
 {
     public class Table : ITableElement
     {
-        public Table(object source)
+        public Table(IIdentifiable source)
         {
             Rows = new Collection<Row>();
             Header = new Row(source);
@@ -22,6 +24,6 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
             visitor.Visit(this);
         }
 
-        public object Source { get; private set; }
+        public IIdentifiable Source { get; private set; }
     }
 }

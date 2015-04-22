@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Psns.Common.Mvc.ViewBuilding.ViewModels.TableModel
 {
-    public interface ITableElement : IVisitable
+    public interface ITableElement
     {
         void Accept(ITableVisitor visitor);
     }

@@ -122,7 +122,6 @@
     <Compile Include="src\$(RootNamespace)\ViewModels\IDetailsViewVisitor.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\IFilterOptionVisitor.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\IUpdateViewVisitor.cs" />
-    <Compile Include="src\$(RootNamespace)\ViewModels\IVisitable.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\DetailsView.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\FilterOption.cs" />
     <Compile Include="src\$(RootNamespace)\ViewModels\Form.cs" />

@@ -7,7 +7,7 @@ using Psns.Common.Mvc.ViewBuilding.Attributes;
 
 namespace Psns.Common.Mvc.ViewBuilding.ViewModels
 {
-    public class InputProperty : IVisitable
+    public class InputProperty
     {
         public InputPropertyType Type { get; set; }
         public string Label { get; set; }
