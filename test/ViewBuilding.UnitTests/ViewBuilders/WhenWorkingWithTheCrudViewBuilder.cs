@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using System.Reflection;
+
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -1339,6 +1341,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
 
             _mockVisitor = new Mock<IFilterOptionVisitor>();
             _mockVisitor.Setup(v => v.Visit(It.IsAny<TestEntity>())).Returns((IIdentifiable item) => item);
+            _mockVisitor.Setup(v => v.Visit(It.IsAny<PropertyInfo>())).Returns((PropertyInfo property) => property);
         }
 
         public override void Act()
@@ -1364,7 +1367,7 @@ namespace ViewBuilding.UnitTests.ViewBuilders
     }
 
     [TestClass]
-    public class WithAVisitorBeingPassedThatReturnsANullOption : AndGettingIndexFilterOptions
+    public class WithAVisitorBeingPassedThatReturnsANullIdentifiable : AndGettingIndexFilterOptions
     {
         Mock<IFilterOptionVisitor> _mockVisitor;
 
@@ -1373,6 +1376,8 @@ namespace ViewBuilding.UnitTests.ViewBuilders
             base.Arrange();
 
             _mockVisitor = new Mock<IFilterOptionVisitor>();
+            _mockVisitor.Setup(v => v.Visit(It.IsAny<PropertyInfo>())).Returns((PropertyInfo property) => property);
+
             _mockVisitor.Setup(v => v.Visit(It.Is<TestEntity>(e => e.Id == 2))).Returns(() => null);
             _mockVisitor.Setup(v => v.Visit(It.Is<TestEntity>(e => e.Id != 2))).Returns((IIdentifiable item) => item);
         }
@@ -1388,6 +1393,57 @@ namespace ViewBuilding.UnitTests.ViewBuilders
         public void ThenTheVisitorsVisitMethodShouldBeCalledAndTheNullOptionShouldNotBeAdded()
         {
             AssertCommon();
+
+            Assert.AreEqual(1, Results.ElementAt(1).Children.Count());
+
+            for(int i = 0; i < EntityList.Count; i++)
+            {
+                var result = EntityList[i] as IIdentifiable;
+                _mockVisitor.Verify(v => v.Visit(result), Times.Once());
+            }
+        }
+    }
+
+    [TestClass]
+    public class WithAVisitorBeingPassedThatReturnsANullPropertyInfo : AndGettingIndexFilterOptions
+    {
+        Mock<IFilterOptionVisitor> _mockVisitor;
+
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            _mockVisitor = new Mock<IFilterOptionVisitor>();
+            _mockVisitor.Setup(v => v.Visit(It.Is<TestEntity>(e => e.Id != 2))).Returns((IIdentifiable item) => item);
+
+            _mockVisitor.Setup(v => v.Visit(It.Is<PropertyInfo>(p => p.Name == "NamedName"))).Returns(() => null);
+            _mockVisitor.Setup(v => v.Visit(It.Is<PropertyInfo>(p => p.Name != "NamedName"))).Returns((PropertyInfo property) => property);
+        }
+
+        public override void Act()
+        {
+            base.Act();
+
+            Results = Builder.GetIndexFilterOptions<TestEntity>(_mockVisitor.Object).ToList();
+        }
+
+        [TestMethod]
+        public void ThenTheVisitorsVisitMethodShouldBeCalledAndTheNullPropertyShouldNotBeAdded()
+        {
+            Assert.AreEqual(7, Results.Count());
+
+            Assert.AreEqual("Name", Results.ElementAt(0).Label);
+            Assert.AreEqual("Name", Results.ElementAt(0).Children.ElementAt(0).Label);
+
+            Assert.AreEqual("Id", Results.ElementAt(1).Label);
+            Assert.AreEqual("1", Results.ElementAt(1).Children.ElementAt(0).Label);
+
+            Assert.AreEqual("Another Entity", Results.ElementAt(2).Label);
+            Assert.AreEqual("Another Entity One, Another Entity Two", Results.ElementAt(2).Children.ElementAt(0).Label);
+
+            Assert.AreEqual("AnotherEntity", Results.ElementAt(3).Label);
+
+            Assert.AreEqual("Other Another Entity", Results.ElementAt(4).Label);
 
             Assert.AreEqual(1, Results.ElementAt(1).Children.Count());
 

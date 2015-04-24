@@ -8,6 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
+      ## 8.0.0
+      ### Features
+      * Added Visit definition to IFilterOptionVisitor to accept a PropertyInfo from an IIdentifiable.
+
       ## 7.0.0
       ### Features
       * Made Table, Row, and Column source objects more specific to their actual purpose.

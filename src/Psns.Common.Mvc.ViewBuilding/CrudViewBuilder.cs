@@ -519,6 +519,17 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
 
                 foreach(var property in indexProperties)
                 {
+                    if(filterOptionVisitors != null)
+                    {
+                        PropertyInfo visited = property;
+
+                        foreach(var visitor in filterOptionVisitors)
+                            visited = visitor.Visit(property);
+
+                        if(visited == null)
+                            continue;
+                    }
+
                     string columnName = GetPropertyName(property);
 
                     if(!columnNameOptionsMap.ContainsKey(columnName))
