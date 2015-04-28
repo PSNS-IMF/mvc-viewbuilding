@@ -8,20 +8,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Automates the building of CRUD view models from decorated class definitions</description>
     <releaseNotes>
-      ## 8.0.0
-      ### Features
-      * Added Visit definition to IFilterOptionVisitor to accept a PropertyInfo from an IIdentifiable.
-
-      ## 7.0.0
-      ### Features
-      * Made Table, Row, and Column source objects more specific to their actual purpose.
-
       ## 6.0.0
       ### Features
+      * Added Visit definition to IFilterOptionVisitor to accept a PropertyInfo from an IIdentifiable.
+      * Made Table, Row, and Column source objects more specific to their actual purpose.
       * Allow visitors to the BuildUpdateView method.
-
-      ## 5.1.2
-      ### Features
       * Adding a Ninject module that will bind ICrudViewBuilder to the CrudViewBuilder.
 
       ## 5.1.1

@@ -46,7 +46,7 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
             {
                 T updated;
 
-                if(model.Id == 0)
+                if(IsCreate(controller, model))
                     updated = controller.Repository.Create(model);
                 else
                 {
@@ -70,6 +70,12 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
                     ViewEngineCollection = controller.ViewEngineCollection
                 };
             }
+        }
+
+        public static bool IsCreate<T>(this IUpdatable<T> updatable, T model)
+            where T : class, IIdentifiable, INameable
+        {
+            return model.Id == 0;
         }
     }
 }
