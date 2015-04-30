@@ -40,6 +40,7 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
             return this.Details<T>(id);
         }
 
+        [RequireRequestValue("model")]
         public virtual ActionResult Details(T model)
         {
             return this.Details<T>(model);
@@ -63,6 +64,7 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
         }
 
         [HttpPost]
+        [RequireRequestValue("model")]
         public virtual ActionResult Delete(T model)
         {
             return this.Delete<T>(model);

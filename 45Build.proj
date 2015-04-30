@@ -111,6 +111,7 @@
     <Compile Include="src\$(RootNamespace)\Controllers\IIndexController.cs" />
     <Compile Include="src\$(RootNamespace)\Controllers\IndexController.cs" />
     <Compile Include="src\$(RootNamespace)\Controllers\IUpdatable.cs" />
+    <Compile Include="src\$(RootNamespace)\Controllers\RequireRequestValueAttribute.cs" />
     <Compile Include="src\$(RootNamespace)\CrudViewBuilder.cs" />
     <Compile Include="src\$(RootNamespace)\Entities\CrudEntityExtensions.cs" />
     <Compile Include="src\$(RootNamespace)\Entities\INameable.cs" />

@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="Attributes\WhenWorkingWithTheViewMappablePropertyAttribute.cs" />
     <Compile Include="Controllers\ControllerTestHelper.cs" />
+    <Compile Include="Controllers\WhenWorkingWorkingWithTheRequireRequestValueAttribute.cs" />
     <Compile Include="Controllers\WhenWorkingWithTheCrudController.cs" />
     <Compile Include="Controllers\WhenWorkingWithTheIndexController.cs" />
     <Compile Include="Extensions.cs" />

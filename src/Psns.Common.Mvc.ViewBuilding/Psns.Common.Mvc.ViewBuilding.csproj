@@ -125,6 +125,7 @@
     <Compile Include="Controllers\IIndexController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\IUpdatable.cs" />
+    <Compile Include="Controllers\RequireRequestValueAttribute.cs" />
     <Compile Include="CrudViewBuilder.cs" />
     <Compile Include="Entities\CrudEntityExtensions.cs" />
     <Compile Include="Entities\INameable.cs" />

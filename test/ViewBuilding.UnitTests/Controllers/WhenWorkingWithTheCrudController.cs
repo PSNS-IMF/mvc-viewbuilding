@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 
 using Psns.Common.Test.BehaviorDrivenDevelopment;
 using Psns.Common.Mvc.ViewBuilding.Controllers;
@@ -46,6 +47,39 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
         }
     }
 
+    [TestClass]
+    public class AndCheckingForRequireRequestAttributes : BehaviorDrivenDevelopmentCaseTemplate
+    {
+        List<string> _requiredValues;
+
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            _requiredValues = new List<string>();
+        }
+
+        public override void Act()
+        {
+            base.Act();
+
+            new[] { "Details", "Delete" }.ToList().ForEach(name =>
+            {
+                var methodInfo = typeof(CrudController<>).GetMember(name)
+                    .Where(m => m.GetCustomAttributes(typeof(RequireRequestValueAttribute), true).Any()).First();
+
+                _requiredValues.Add((methodInfo.GetCustomAttributes(typeof(RequireRequestValueAttribute), false)[0] 
+                    as RequireRequestValueAttribute).ValueName);
+            });
+        }
+
+        [TestMethod]
+        public void ThenTheDetailsAndDeleteMethodsShouldBeProperlyDecorated()
+        {
+            foreach(var name in _requiredValues)
+                Assert.AreEqual("model", name);
+        }
+    }
 
     #region Index
 
