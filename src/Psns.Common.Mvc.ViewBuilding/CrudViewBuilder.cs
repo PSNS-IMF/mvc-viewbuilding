@@ -34,6 +34,7 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             params IIndexViewVisitor[] viewVisitors) where T : class, IIdentifiable;
 
         DetailsView BuildDetailsView<T>(int id, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
+        DetailsView BuildDetailsView<T>(T model, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
         UpdateView BuildUpdateView<T>(int? id, params IUpdateViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
         UpdateView BuildUpdateView<T>(T model, params IUpdateViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable;
 
@@ -160,33 +161,17 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
             return view;
         }
 
-        public DetailsView BuildDetailsView<T>(int id, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable
+        public DetailsView BuildDetailsView<T>(T model, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable
         {
-            int orderCount = 0;
-            var detailsProperties = typeof(T)
-                .GetProperties()
-                .Where(p => (p.GetCustomAttributes(typeof(ViewDisplayablePropertyAttribute), false) as ViewDisplayablePropertyAttribute[])
-                            .Where(a => a.DisplayViewTypes.Contains(DisplayViewTypes.Details))
-                            .Any())
-                .OrderBy(p => p.GetPropertyOrder(orderCount));
-
-            var includes = CrudEntityExtensions.GetComplexPropertyNames(detailsProperties);
-
-            var model = _repositoryFactory.Get<T>().Find(e => e.Id == id, includes).SingleOrDefault();
-
             if(model == null)
-            {
-                throw new InvalidOperationException(string.Format("{0} with id {1} was not found",
-                    typeof(T).Name,
-                    id));
-            }
+                throw new InvalidOperationException("Model cannot be null");
 
             var view = new DetailsView
             {
                 Title = model.Name
             };
 
-            foreach(var property in detailsProperties)
+            foreach(var property in GetDetailsProperties<T>())
             {
                 var row = new Row(model);
 
@@ -292,6 +277,22 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                 visitor.Visit(view);
 
             return view;
+        }
+
+        public DetailsView BuildDetailsView<T>(int id, params IDetailsViewVisitor[] viewVisitors) where T : class, IIdentifiable, INameable
+        {
+            var includes = CrudEntityExtensions.GetComplexPropertyNames(GetDetailsProperties<T>());
+
+            var model = _repositoryFactory.Get<T>().Find(e => e.Id == id, includes).SingleOrDefault();
+
+            if(model == null)
+            {
+                throw new InvalidOperationException(string.Format("{0} with id {1} was not found",
+                    typeof(T).Name,
+                    id));
+            }
+
+            return BuildDetailsView(model, viewVisitors);
         }
 
         /// <summary>
@@ -798,6 +799,19 @@ namespace Psns.Common.Mvc.ViewBuilding.ViewBuilders
                 .OrderBy(p => p.GetPropertyOrder(displayOrderCount));
 
             return indexProperties;
+        }
+
+        private static IOrderedEnumerable<PropertyInfo> GetDetailsProperties<T>() where T : class, IIdentifiable, INameable
+        {
+            int orderCount = 0;
+
+            var detailsProperties = typeof(T)
+                .GetProperties()
+                .Where(p => (p.GetCustomAttributes(typeof(ViewDisplayablePropertyAttribute), false) as ViewDisplayablePropertyAttribute[])
+                            .Where(a => a.DisplayViewTypes.Contains(DisplayViewTypes.Details))
+                            .Any())
+                .OrderBy(p => p.GetPropertyOrder(orderCount));
+            return detailsProperties;
         }
 
         private IEnumerable<T> Search<T>(IEnumerable<T> entities, string searchQuery)

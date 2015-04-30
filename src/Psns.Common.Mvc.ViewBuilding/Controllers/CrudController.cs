@@ -15,7 +15,7 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
     public abstract class CrudController<T> : Controller,
         IRepositoryController<T>,
         IIndexable,
-        IDetailable,
+        IDetailable<T>,
         IUpdatable<T>,
         IDeleteable<T>
         where T : class, IIdentifiable, INameable
@@ -40,6 +40,11 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
             return this.Details<T>(id);
         }
 
+        public virtual ActionResult Details(T model)
+        {
+            return this.Details<T>(model);
+        }
+
         public virtual ActionResult Update(int? id)
         {
             return this.Update<T>(id);
@@ -55,6 +60,12 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
         public virtual ActionResult Delete(int id)
         {
             return this.Delete<T>(id);
+        }
+
+        [HttpPost]
+        public virtual ActionResult Delete(T model)
+        {
+            return this.Delete<T>(model);
         }
     }
 }

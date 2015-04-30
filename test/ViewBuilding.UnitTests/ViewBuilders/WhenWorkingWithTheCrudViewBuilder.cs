@@ -1607,6 +1607,22 @@ namespace ViewBuilding.UnitTests.ViewBuilders
         }
     }
 
+    [TestClass]
+    public class WhenTheGivenModelIsNull : AndBuildingTheDetailsView
+    {
+        public override void Act()
+        {
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ThenAnInvalidOperationExceptionShouldBeThrown()
+        {
+            var view = Builder.BuildDetailsView<TestEntity>(null);
+            Assert.Fail();
+        }
+    }
+
     #endregion
 
     #region UpdateView

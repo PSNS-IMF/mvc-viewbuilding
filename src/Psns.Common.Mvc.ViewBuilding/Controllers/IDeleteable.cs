@@ -27,6 +27,7 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
         /// <param name="id">The id of the object to delete</param>
         /// <returns>An ActionResult</returns>
         ActionResult Delete(int id);
+        ActionResult Delete(T model);
     }
 
     /// <summary>
@@ -46,10 +47,24 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
             INameable, 
             IIdentifiable
         {
+            return Delete(controller, controller.Repository.Find(id));
+        }
+
+        /// <summary>
+        /// Validates the AntiForgery token and calls delete for the id on the Repository
+        /// </summary>
+        /// <typeparam name="T">A type that implements INameable and IIdentifiable</typeparam>
+        /// <param name="controller">The controller being extended</param>
+        /// <param name="id">The id of the object to be deleted</param>
+        /// <returns>A redirect to the Index</returns>
+        public static ActionResult Delete<T>(this IDeleteable<T> controller, T model)
+            where T : class, 
+            INameable,
+            IIdentifiable
+        {
             AntiForgeryHelperAdapter.Validate();
 
-            var toDelete = controller.Repository.Find(id);
-            controller.Repository.Delete(toDelete);
+            controller.Repository.Delete(model);
             controller.Repository.SaveChanges();
 
             return new RedirectToRouteResult("Default",

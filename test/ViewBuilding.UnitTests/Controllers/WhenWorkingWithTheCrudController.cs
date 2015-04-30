@@ -91,7 +91,7 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
     #region Details
 
     [TestClass]
-    public class AndCallingDetails : WhenWorkingWithTheCrudController
+    public class AndCallingDetailsWithId : WhenWorkingWithTheCrudController
     {
         ViewResult _result;
 
@@ -113,6 +113,36 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
         public void ThenAViewResultShouldBeReturnedWithTheDetailsViewModel()
         {
             Assert.IsInstanceOfType(_result.Model, typeof(DetailsView));
+            MockViewBuilder.Verify(b => b.BuildDetailsView<TestEntity>(1, It.IsAny<IDetailsViewVisitor[]>()), Times.Once());
+        }
+    }
+
+    [TestClass]
+    public class AndCallingDetailsWithModel : WhenWorkingWithTheCrudController
+    {
+        ViewResult _result;
+        TestEntity _model;
+
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            _model = new TestEntity { Id = 1 };
+            MockViewBuilder.Setup(b => b.BuildDetailsView<TestEntity>(_model)).Returns(new DetailsView());
+        }
+
+        public override void Act()
+        {
+            base.Act();
+
+            _result = Controller.Details(_model) as ViewResult;
+        }
+
+        [TestMethod]
+        public void ThenAViewResultShouldBeReturnedWithTheDetailsViewModel()
+        {
+            Assert.IsInstanceOfType(_result.Model, typeof(DetailsView));
+            MockViewBuilder.Verify(b => b.BuildDetailsView<TestEntity>(_model, It.IsAny<IDetailsViewVisitor[]>()), Times.Once());
         }
     }
 
@@ -256,22 +286,34 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
 
     #endregion
 
-    [TestClass]
+    #region Delete
+
     public class AndDeleting : WhenWorkingWithTheCrudController
     {
-        TestEntity _beingTested;
-        bool _validateCalled;
+        protected TestEntity BeingTested;
+        protected bool ValidateCalled;
 
         public override void Arrange()
         {
             base.Arrange();
 
-            _beingTested = new TestEntity { Id = 1 };
-            MockRepository.Setup(r => r.Find(1)).Returns(_beingTested);
+            BeingTested = new TestEntity { Id = 1 };
+            MockRepository.Setup(r => r.Find(1)).Returns(BeingTested);
 
-            AntiForgeryHelperAdapter.ValidationFunction = () => _validateCalled = true;
+            AntiForgeryHelperAdapter.ValidationFunction = () => ValidateCalled = true;
         }
 
+        protected void AssertCommon()
+        {
+            Assert.IsTrue(ValidateCalled);
+            MockRepository.Verify(r => r.Delete(It.Is<TestEntity>(e => e.Id == BeingTested.Id)), Times.Once());
+            MockRepository.Verify(r => r.SaveChanges(), Times.Once());
+        }
+    }
+
+    [TestClass]
+    public class AndDeletingById : AndDeleting
+    {
         public override void Act()
         {
             base.Act();
@@ -282,9 +324,25 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
         [TestMethod]
         public void ThenTheRepositoryDeleteShouldBeCalledWithTheRightObject()
         {
-            Assert.IsTrue(_validateCalled);           
-            MockRepository.Verify(r => r.Delete(It.Is<TestEntity>(e => e.Id == 1)), Times.Once());
-            MockRepository.Verify(r => r.SaveChanges(), Times.Once());
+            AssertCommon();
         }
     }
+
+    [TestClass]
+    public class AndDeletingByModel : AndDeleting
+    {
+        public override void Act()
+        {
+            base.Act();
+
+            Controller.Delete(BeingTested);
+        }
+
+        [TestMethod]
+        public void ThenTheRepositoryDeleteShouldBeCalledWithTheRightObject()
+        {
+            AssertCommon();
+        }
+    }
+    #endregion
 }
