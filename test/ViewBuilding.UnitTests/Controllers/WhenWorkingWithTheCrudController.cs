@@ -211,11 +211,10 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
         }
     }
 
-    public class AndCallingUpdatePost : WhenWorkingWithTheCrudController
+    public class AndCallingUpdateModel : WhenWorkingWithTheCrudController
     {
-        protected bool ValidateCalled;
-        protected ActionResult Result;
         protected TestEntity Entity;
+        protected List<ActionResult> Results;
 
         public override void Arrange()
         {
@@ -223,53 +222,71 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
 
             Entity = new TestEntity { Id = 1 };
 
-            MockViewBuilder.Setup(b => b.BuildUpdateView<TestEntity>(1)).Returns(new UpdateView());
-            MockRepository.Setup(r => r.Update(It.IsAny<TestEntity>(), 
+            Results = new List<ActionResult>();
+
+            MockViewBuilder.Setup(b => b.BuildUpdateView<TestEntity>(Entity)).Returns(new UpdateView());
+            MockRepository.Setup(r => r.Update(It.IsAny<TestEntity>(),
                 "AnotherEntities",
                 "AnotherEntity",
                 "OtherAnotherEntities",
                 "RequiredEntity",
                 "ForeignKey")).Returns(Entity);
+        }
+    }
 
-            AntiForgeryHelperAdapter.ValidationFunction = () => ValidateCalled = true;
+    public class AndCallingUpdateModelPost : AndCallingUpdateModel
+    {
+        protected int TimesValidateCalled;
+
+        public override void Arrange()
+        {
+            base.Arrange();
+
+            AntiForgeryHelperAdapter.ValidationFunction = () => TimesValidateCalled++;
         }
 
         public override void Act()
         {
             base.Act();
 
-            Result = Controller.Update(Entity);
+            new[] { HttpVerbs.Post, HttpVerbs.Put, HttpVerbs.Patch, HttpVerbs.Delete }.ToList().ForEach(verb =>
+            {
+                Results.Add(Controller.Update(Entity, verb));
+            });
         }
 
         protected void AssertCommon()
         {
-            Assert.IsTrue(ValidateCalled);
+            Assert.AreEqual(4, TimesValidateCalled);
         }
     }
 
     [TestClass]
-    public class WhenTheModelStateIsValid : AndCallingUpdatePost
+    public class WhenTheModelStateIsValid : AndCallingUpdateModelPost
     {
         [TestMethod]
         public void ThenTheRepositoryShouldBeUpdatedAndARedirectToDetailsShouldBeReturned()
         {
-            var result = Result as RedirectToRouteResult;
-            Assert.AreEqual("Details", result.RouteName);
-            Assert.AreEqual("Details", result.RouteValues["action"]);
-            Assert.AreEqual(1, result.RouteValues["id"]);
+            foreach(var actionResult in Results)
+            {
+                var result = actionResult as RedirectToRouteResult;
+                Assert.AreEqual("Details", result.RouteName);
+                Assert.AreEqual("Details", result.RouteValues["action"]);
+                Assert.AreEqual(1, result.RouteValues["id"]);
+            }
 
             MockRepository.Verify(r => r.Update(It.Is<TestEntity>(e => e.Id == 1), 
                 "AnotherEntities",
                 "AnotherEntity",
                 "OtherAnotherEntities",
                 "RequiredEntity",
-                "ForeignKey"), Times.Once());
-            MockRepository.Verify(r => r.SaveChanges(), Times.Once());
+                "ForeignKey"), Times.Exactly(4));
+            MockRepository.Verify(r => r.SaveChanges(), Times.Exactly(4));
         }
     }
 
     [TestClass]
-    public class WhenTheModelStateIsInValid : AndCallingUpdatePost
+    public class WhenTheModelStateIsInValid : AndCallingUpdateModelPost
     {
         public override void Arrange()
         {
@@ -283,15 +300,18 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
         [TestMethod]
         public void ThenAViewResultWithTheBadModelShouldBeReturned()
         {
-            var result = Result as ViewResult;
-            Assert.IsInstanceOfType(result.Model, typeof(UpdateView));
+            foreach(var actionResult in Results)
+            {
+                var result = actionResult as ViewResult;
+                Assert.IsInstanceOfType(result.Model, typeof(UpdateView));
+            }
 
             MockRepository.Verify(r => r.Update(It.Is<TestEntity>(e => e.Id == 1)), Times.Never());
         }
     }
 
     [TestClass]
-    public class WhenTheIdEqualsZero : AndCallingUpdatePost
+    public class WhenTheIdEqualsZero : AndCallingUpdateModelPost
     {
         public override void Arrange()
         {
@@ -302,19 +322,55 @@ namespace ViewBuilding.UnitTests.Controllers.Crud
 
         public override void Act()
         {
-            Result = Controller.Update(new TestEntity { Id = 0 });
+            new[] { HttpVerbs.Post, HttpVerbs.Put, HttpVerbs.Patch, HttpVerbs.Delete }.ToList().ForEach(verb =>
+            {
+                Results.Add(Controller.Update(new TestEntity { Id = 0 }, verb));
+            });
         }
 
         [TestMethod]
         public void ThenAViewResultWithTheModelShouldBeReturnedAndRepoCreateShouldBeCalled()
         {
-            var result = Result as RedirectToRouteResult;
-            Assert.AreEqual("Details", result.RouteName);
-            Assert.AreEqual("Details", result.RouteValues["action"]);
-            Assert.AreEqual(1, result.RouteValues["id"]);
+            foreach(var actionResult in Results)
+            {
+                var result = actionResult as RedirectToRouteResult;
+                Assert.AreEqual("Details", result.RouteName);
+                Assert.AreEqual("Details", result.RouteValues["action"]);
+                Assert.AreEqual(1, result.RouteValues["id"]);
+            }
 
-            MockRepository.Verify(r => r.Create(It.Is<TestEntity>(e => e.Id == 0)), Times.Once());
-            MockRepository.Verify(r => r.SaveChanges(), Times.Once());
+            MockRepository.Verify(r => r.Create(It.Is<TestEntity>(e => e.Id == 0)), Times.Exactly(4));
+            MockRepository.Verify(r => r.SaveChanges(), Times.Exactly(4));
+        }
+    }
+
+    [TestClass]
+    public class AndCallingUpdateModelNonPosts : AndCallingUpdateModel
+    {
+        public override void Act()
+        {
+            base.Act();
+
+            new[] { HttpVerbs.Get, HttpVerbs.Head, HttpVerbs.Options }.ToList().ForEach(verb =>
+            {
+                Results.Add(Controller.Update(Entity, verb));
+            });
+        }
+
+        [TestMethod]
+        public void ThenAViewResultShouldBeReturnedWithTheUpdateViewModel()
+        {
+            foreach(var actionResult in Results)
+            {
+                var result = actionResult as ViewResult;
+                Assert.IsInstanceOfType(result.Model, typeof(UpdateView));
+            }
+
+            MockViewBuilder.Verify(b => b.BuildUpdateView<TestEntity>(Entity), Times.Exactly(3));
+
+            MockRepository.Verify(r => r.Create(It.IsAny<TestEntity>()), Times.Never());
+            MockRepository.Verify(r => r.Update(It.IsAny<TestEntity>(), It.IsAny<string[]>()), Times.Never());
+            MockRepository.Verify(r => r.SaveChanges(), Times.Never());
         }
     }
 

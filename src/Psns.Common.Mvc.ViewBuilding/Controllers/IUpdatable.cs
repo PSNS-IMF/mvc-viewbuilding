@@ -35,14 +35,30 @@ namespace Psns.Common.Mvc.ViewBuilding.Controllers
             };
         }
 
-        public static ActionResult Update<T>(this IUpdatable<T> controller, T model) 
+        public static ActionResult Update<T>(this IUpdatable<T> controller, 
+            T model, 
+            HttpVerbs httpVerb = HttpVerbs.Post) 
             where T : class, 
             INameable, 
             IIdentifiable
         {
-            AntiForgeryHelperAdapter.Validate();
+            bool redirect = false;
 
-            if(controller.ModelState.IsValid)
+            switch(httpVerb)
+            {
+                case HttpVerbs.Get:
+                    break;
+                case HttpVerbs.Head:
+                    break;
+                case HttpVerbs.Options:
+                    break;
+                default:
+                    AntiForgeryHelperAdapter.Validate();
+                    redirect = true;
+                    break;
+            }
+
+            if(controller.ModelState.IsValid && redirect)
             {
                 T updated;
 
