@@ -10,6 +10,7 @@
     <releaseNotes>
       ## 7.0.0
       ### Features
+      * Allow HttpVerb to be specified for IUpdatable when model is being passed for reading and writing actions to be differentiated.
       * Added methods on CrudController for Details and Delete that accept a Model in addition to an Id.
 
       ## 6.0.0
